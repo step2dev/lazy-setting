@@ -4,8 +4,8 @@ namespace Step2Dev\LazySetting;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
-use Step2Dev\LazySetting\Models\Setting;
 use InvalidArgumentException;
+use Step2Dev\LazySetting\Models\Setting;
 use Throwable;
 
 class LazySetting
@@ -69,12 +69,12 @@ class LazySetting
         return compact('key', 'group');
     }
 
-    public function get(string $key, mixed $default = null): string|null
+    public function get(string $key, mixed $default = null): ?string
     {
         return $this->getConfig($key)?->value ?? $default;
     }
 
-    public function getConfig(string $key): Setting|null
+    public function getConfig(string $key): ?Setting
     {
         try {
             ['group' => $group, 'key' => $key] = $this->getKeyAndGroup($key);
@@ -92,7 +92,7 @@ class LazySetting
     /**
      * @throws Throwable
      */
-    public function set(string $key, mixed $data, string|null $type = null): Setting
+    public function set(string $key, mixed $data, ?string $type = null): Setting
     {
         if ($setting = $this->getConfig($key)) {
             $this->update($setting, $data);
@@ -120,7 +120,7 @@ class LazySetting
     /**
      * @throws Throwable
      */
-    public function createIfNotExists(string $key, mixed $data, string|null $type = null): Setting
+    public function createIfNotExists(string $key, mixed $data, ?string $type = null): Setting
     {
         $setting = Setting::firstOrCreate($this->getKeyAndGroup($key), $this->formatData($data, $type));
 
@@ -145,7 +145,7 @@ class LazySetting
         };
     }
 
-    final protected function formatData(array|string $data, string|null $type = null, ?array $options = []): array
+    final protected function formatData(array|string $data, ?string $type = null, ?array $options = []): array
     {
         $type = $this->getFieldType($type);
         $result = compact('type');
@@ -172,7 +172,7 @@ class LazySetting
     /**
      * @throws Throwable
      */
-    public function create(string $key, array $data, string|null $type = null): Setting
+    public function create(string $key, array $data, ?string $type = null): Setting
     {
         $setting = Setting::create([
             ...$this->getKeyAndGroup($key),
