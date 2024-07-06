@@ -1,12 +1,12 @@
 <?php
 
-namespace VendorName\Skeleton\Commands;
+namespace Step2Dev\LazySetting\Commands;
 
 use Illuminate\Console\Command;
 
-class SkeletonCommand extends Command
+class LazySettingCommand extends Command
 {
-    public $signature = 'skeleton';
+    public $signature = 'lazy-setting';
 
     public $description = 'My command';
 
