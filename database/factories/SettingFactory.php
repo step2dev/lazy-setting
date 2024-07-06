@@ -12,9 +12,9 @@ class SettingFactory extends Factory
     public function definition(): array
     {
         return [
-            'group' => $this->faker->word,
-            'key' => $this->faker->word,
-            'type' => $this->faker->randomElement([
+            'group'        => $this->faker->word,
+            'key'          => $this->faker->word,
+            'type'         => $this->faker->randomElement([
                 'text',
                 'textarea',
                 'select',
@@ -31,10 +31,12 @@ class SettingFactory extends Factory
                 'time',
                 'datetime',
             ]),
-            'value' => $this->faker->word,
-            'is_protected' => $this->faker->boolean,
+            'value'        => $this->faker->word,
+            'options'      => [
+                'is_protected' => $this->faker->boolean,
+                'deletable'    => $this->faker->boolean,
+            ],
             'is_encrypted' => $this->faker->boolean,
-            'deletable' => $this->faker->boolean,
         ];
     }
 }
