@@ -20,12 +20,12 @@ class LazySetting
     public static function config(string $string = ''): string|array|null
     {
         $config = [
-            'table'     => self::getTable(),
+            'table' => self::getTable(),
             'cache_key' => self::getCacheKey(),
             'cache_ttl' => self::getCacheTtl(),
-            'default'   => [
+            'default' => [
                 'group' => self::getDefaultGroup(),
-                'type'  => self::getDefaultType(),
+                'type' => self::getDefaultType(),
             ],
         ];
 
@@ -159,13 +159,13 @@ class LazySetting
 
         return match ($type) {
             'string', 'text', 'textarea', 'richtext' => 'string',
-            'integer', 'int'                         => 'integer',
-            'float', 'double'                        => 'float',
-            'boolean', 'bool'                        => 'boolean',
-            'array'                                  => 'array',
-            'json'                                   => 'json',
-            'image'                                  => 'image',
-            default                                  => self::getDefaultType(),
+            'integer', 'int' => 'integer',
+            'float', 'double' => 'float',
+            'boolean', 'bool' => 'boolean',
+            'array' => 'array',
+            'json' => 'json',
+            'image' => 'image',
+            default => self::getDefaultType(),
         };
     }
 
@@ -200,7 +200,7 @@ class LazySetting
     {
         $setting = Setting::create([
             ...$this->getKeyAndGroup($key),
-            'type'  => $type ?? 'string',
+            'type' => $type ?? 'string',
             'value' => $data,
         ]);
 
