@@ -4,13 +4,12 @@
 return [
     'table' => 'settings',
     'cache_key' => 'cache-settings',
-    'cache_ttl' => 60 * 60 * 24,
+    'cache_ttl' => null, // in seconds (default: forever)
     'default' => [
-        'group' => 'string',
-        'type' => 'text',
+        'group' => 'default',
+        'type' => 'string',
         'value' => null,
-        'is_protected' => false,
+        'options' => [],
         'is_encrypted' => false,
-        'deletable' => true,
     ],
 ];

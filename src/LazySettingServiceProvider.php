@@ -5,7 +5,6 @@ namespace Step2Dev\LazySetting;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 use Step2Dev\LazySetting\Commands\LazySettingCommand;
-use Step2Dev\LazySetting\Services\SettingService;
 
 class LazySettingServiceProvider extends PackageServiceProvider
 {
@@ -26,6 +25,6 @@ class LazySettingServiceProvider extends PackageServiceProvider
 
     public function registeringPackage(): void
     {
-        $this->app->singleton('setting', fn () => new SettingService());
+        $this->app->singleton('setting', fn () => new LazySetting());
     }
 }
