@@ -3,7 +3,7 @@
 // config for Step2Dev/LazySetting
 return [
     'table' => 'settings',
-    'cache_key' => 'cache-settings',
+    'cache_prefix' => 'lazy_',
     'cache_ttl' => null, // in seconds (default: forever)
     'default' => [
         'group' => 'default',

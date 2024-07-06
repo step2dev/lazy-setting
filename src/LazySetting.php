@@ -17,9 +17,28 @@ class LazySetting
         $this->settings = Collection::make();
     }
 
+    public static function config(string $string = ''): string|array|null
+    {
+        $config = [
+            'table'     => self::getTable(),
+            'cache_key' => self::getCacheKey(),
+            'cache_ttl' => self::getCacheTtl(),
+            'default'   => [
+                'group' => self::getDefaultGroup(),
+                'type'  => self::getDefaultType(),
+            ],
+        ];
+
+        if ($string) {
+            return $config[$string] ?? null;
+        }
+
+        return $config;
+    }
+
     public static function getCacheKey(): string
     {
-        return config('lazy-setting.cache_key', self::getCacheKey());
+        return config('lazy-setting.cache_prefix').'settings';
     }
 
     public static function getCacheTtl(): int
@@ -35,6 +54,11 @@ class LazySetting
     public static function getDefaultType(): string
     {
         return config('lazy-setting.default.type', 'string');
+    }
+
+    public static function getTable(): string
+    {
+        return trim((string) config('lazy-setting.table'));
     }
 
     public function init(): static
@@ -135,13 +159,13 @@ class LazySetting
 
         return match ($type) {
             'string', 'text', 'textarea', 'richtext' => 'string',
-            'integer', 'int' => 'integer',
-            'float', 'double' => 'float',
-            'boolean', 'bool' => 'boolean',
-            'array' => 'array',
-            'json' => 'json',
-            'image' => 'image',
-            default => self::getDefaultType(),
+            'integer', 'int'                         => 'integer',
+            'float', 'double'                        => 'float',
+            'boolean', 'bool'                        => 'boolean',
+            'array'                                  => 'array',
+            'json'                                   => 'json',
+            'image'                                  => 'image',
+            default                                  => self::getDefaultType(),
         };
     }
 
@@ -176,7 +200,7 @@ class LazySetting
     {
         $setting = Setting::create([
             ...$this->getKeyAndGroup($key),
-            'type' => $type ?? 'string',
+            'type'  => $type ?? 'string',
             'value' => $data,
         ]);
 

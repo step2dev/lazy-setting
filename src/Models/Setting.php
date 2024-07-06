@@ -4,6 +4,8 @@ namespace Step2Dev\LazySetting\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
+use Step2Dev\LazySetting\LazySetting;
 
 /**
  * @property string|null $group
@@ -44,5 +46,10 @@ class Setting extends Model
     public function getSettingKeyAttribute(): string
     {
         return $this->group.'.'.$this->key;
+    }
+
+    public function getTable(): string
+    {
+        return LazySetting::config('table') ?: parent::getTable();
     }
 }
