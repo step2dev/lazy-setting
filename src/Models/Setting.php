@@ -25,6 +25,7 @@ class Setting extends Model
         'type',
         'value',
         'options',
+        'is_protected',
     ];
 
     protected $casts = [
@@ -32,6 +33,7 @@ class Setting extends Model
         'key' => 'string',
         'type' => 'string',
         'options' => 'array',
+        'is_protected' => 'boolean',
     ];
 
     public function getDescriptionAttribute(): string
