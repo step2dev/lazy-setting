@@ -28,9 +28,9 @@ class Setting extends Model
     ];
 
     protected $casts = [
-        'group'   => 'string',
-        'key'     => 'string',
-        'type'    => 'string',
+        'group' => 'string',
+        'key' => 'string',
+        'type' => 'string',
         'options' => 'array',
     ];
 
