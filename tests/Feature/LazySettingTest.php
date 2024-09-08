@@ -47,7 +47,7 @@ it('can get all settings', function () {
     $siteDescription = LazySetting::get('site_description');
 
     expect($siteName)
-        ->toBe( 'My Website');
-//        ->and($siteDescription)
-//        ->toBe( 'My Best website');
+        ->toBe('My Website');
+    //        ->and($siteDescription)
+    //        ->toBe( 'My Best website');
 });
