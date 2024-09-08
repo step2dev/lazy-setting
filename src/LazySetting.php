@@ -157,7 +157,7 @@ class LazySetting
         return $setting;
     }
 
-    public function getFieldType(string|null $type = ''): string
+    public function getFieldType(?string $type = ''): string
     {
         $type = strtolower(trim($type));
 
