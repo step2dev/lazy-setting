@@ -25,6 +25,6 @@ class LazySettingServiceProvider extends PackageServiceProvider
 
     public function registeringPackage(): void
     {
-        $this->app->singleton('setting', fn () => new LazySetting());
+        $this->app->singleton('setting', fn () => new LazySetting);
     }
 }
