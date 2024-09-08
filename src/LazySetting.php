@@ -5,6 +5,7 @@ namespace Step2Dev\LazySetting;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use InvalidArgumentException;
+use JsonException;
 use Step2Dev\LazySetting\Models\Setting;
 use Throwable;
 
@@ -41,7 +42,7 @@ class LazySetting
         return config('lazy-setting.cache_prefix').'settings';
     }
 
-    public static function getCacheTtl(): int
+    public static function getCacheTtl(): int|null
     {
         return config('lazy-setting.cache_ttl');
     }
@@ -93,12 +94,12 @@ class LazySetting
         return compact('key', 'group');
     }
 
-    public function get(string $key, mixed $default = null): ?string
+    public function get(string $key, mixed $default = null): string|null
     {
         return $this->getConfig($key)?->value ?? $default;
     }
 
-    public function getConfig(string $key): ?Setting
+    public function getConfig(string $key): Setting|null
     {
         try {
             ['group' => $group, 'key' => $key] = $this->getKeyAndGroup($key);
@@ -116,7 +117,7 @@ class LazySetting
     /**
      * @throws Throwable
      */
-    public function set(string $key, mixed $data, ?string $type = null): Setting
+    public function set(string $key, mixed $data, string|null $type = null): Setting
     {
         if ($setting = $this->getConfig($key)) {
             $this->update($setting, $data);
@@ -132,6 +133,9 @@ class LazySetting
         return $this->getSettings();
     }
 
+    /**
+     * @throws JsonException
+     */
     public function update(Setting $setting, mixed $data): Setting
     {
         $setting->update($this->formatData($data, $setting->type));
@@ -144,7 +148,7 @@ class LazySetting
     /**
      * @throws Throwable
      */
-    public function createIfNotExists(string $key, mixed $data, ?string $type = null): Setting
+    public function createIfNotExists(string $key, mixed $data, string|null $type = null): Setting
     {
         $setting = Setting::firstOrCreate($this->getKeyAndGroup($key), $this->formatData($data, $type));
 
@@ -169,7 +173,10 @@ class LazySetting
         };
     }
 
-    final protected function formatData(array|string $data, ?string $type = null, ?array $options = []): array
+    /**
+     * @throws JsonException
+     */
+    final protected function formatData(array|string $data, string|null $type = null, array|null $options = []): array
     {
         $type = $this->getFieldType($type);
         $result = compact('type');
