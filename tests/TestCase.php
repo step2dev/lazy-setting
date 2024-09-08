@@ -34,6 +34,7 @@ class TestCase extends Orchestra
         config()->set('database.default', 'testing');
         config()->set('database.connections.testing.prefix', '');
         config()->set('lazy.setting.table', 'settings');
+        config()->set('lazy-setting.default.type', 'string');
 
         $migration = include __DIR__.'/../database/migrations/create_lazy_setting_table.php.stub';
         $migration->up();
