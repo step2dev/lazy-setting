@@ -19,7 +19,7 @@ class LazySettingServiceProvider extends PackageServiceProvider
             ->name('lazy-setting')
             ->hasConfigFile('lazy/setting')
             ->hasViews()
-            ->hasMigration('create_lazy-setting_table')
+            ->hasMigration('create_lazy_setting_table')
             ->hasCommand(LazySettingCommand::class);
     }
 
