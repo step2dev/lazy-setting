@@ -59,7 +59,7 @@ class LazySetting
 
     public static function getTable(): string
     {
-        return trim((string) config('lazy-setting.table'));
+        return trim((string) config('lazy-setting.table', 'settings'));
     }
 
     public function init(): static
