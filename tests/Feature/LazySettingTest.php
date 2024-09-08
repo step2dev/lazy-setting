@@ -38,3 +38,14 @@ it('clears the cache when setting a new value', function () {
     $newValue = LazySetting::get('cached_key');
     expect($newValue)->toBe('New Value');
 });
+
+it('can get all settings', function () {
+    LazySetting::set('site_name', 'My Website');
+    LazySetting::set('site_description', 'Best website');
+
+    $allSettings = LazySetting::get();
+
+    expect($allSettings)->toBeArray()
+        ->and($allSettings)->toHaveKey('site_name', 'My Website')
+        ->and($allSettings)->toHaveKey('site_description', 'Best website');
+});

@@ -1,19 +1,18 @@
-# This is my package lazy-setting
+# Lazy setting
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/step2dev/lazy-setting.svg?style=flat-square)](https://packagist.org/packages/step2dev/lazy-setting)
 [![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/step2dev/lazy-setting/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/step2dev/lazy-setting/actions?query=workflow%3Arun-tests+branch%3Amain)
 [![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/step2dev/lazy-setting/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/step2dev/lazy-setting/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/step2dev/lazy-setting.svg?style=flat-square)](https://packagist.org/packages/step2dev/lazy-setting)
 
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
+This package provides a flexible way to manage application settings in Laravel. It includes caching, input validation, and a simple API with support for static methods via a facade.
 
-## Support us
+## Features
 
-[<img src="https://github-ads.s3.eu-central-1.amazonaws.com/lazy-setting.jpg?t=1" width="419px" />](https://spatie.be/github-ad-click/lazy-setting)
-
-We invest a lot of resources into creating [best in class open source packages](https://spatie.be/open-source). You can support us by [buying one of our paid products](https://spatie.be/open-source/support-us).
-
-We highly appreciate you sending us a postcard from your hometown, mentioning which of our package(s) you are using. You'll find our address on [our contact page](https://spatie.be/about-us). We publish all received postcards on [our virtual postcard wall](https://spatie.be/open-source/postcards).
+- Easily get and set application settings.
+- Support for caching settings to improve performance.
+- Input validation for settings.
+- Simple API with static method support through a facade.
 
 ## Installation
 
@@ -36,18 +35,25 @@ You can publish the config file with:
 php artisan vendor:publish --tag="lazy-setting-config"
 ```
 
-This is the contents of the published config file:
+[//]: # (This is the contents of the published config file:)
 
-```php
-return [
-];
-```
+[//]: # ()
+[//]: # (```php)
 
-Optionally, you can publish the views using
+[//]: # (return [)
 
-```bash
-php artisan vendor:publish --tag="lazy-setting-views"
-```
+[//]: # (];)
+
+[//]: # (```)
+
+[//]: # (Optionally, you can publish the views using)
+
+[//]: # ()
+[//]: # (```bash)
+
+[//]: # (php artisan vendor:publish --tag="lazy-setting-views")
+
+[//]: # (```)
 
 ## Usage
 
