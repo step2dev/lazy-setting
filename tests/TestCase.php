@@ -27,6 +27,7 @@ class TestCase extends Orchestra
     public function getEnvironmentSetUp($app): void
     {
         config()->set('database.default', 'testing');
+        config()->set('database.connections.testing.prefix', '');
 
         $migration = include __DIR__.'/../database/migrations/create_lazy_setting_table.php.stub';
         $migration->up();
