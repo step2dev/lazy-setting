@@ -60,9 +60,9 @@ it('uses the lazy.setting config namespace', function () {
     config()->set('lazy.setting.default.type', 'text');
     config()->set('lazy.setting.table', 'custom_settings');
 
-    expect(\Step2Dev\LazySetting\LazySetting::getCacheKey())->toBe('custom_settings')
-        ->and(\Step2Dev\LazySetting\LazySetting::getCacheTtl())->toBe(120)
-        ->and(\Step2Dev\LazySetting\LazySetting::getDefaultGroup())->toBe('site')
-        ->and(\Step2Dev\LazySetting\LazySetting::getDefaultType())->toBe('text')
-        ->and(\Step2Dev\LazySetting\LazySetting::getTable())->toBe('custom_settings');
+    expect(Step2Dev\LazySetting\LazySetting::getCacheKey())->toBe('custom_settings')
+        ->and(Step2Dev\LazySetting\LazySetting::getCacheTtl())->toBe(120)
+        ->and(Step2Dev\LazySetting\LazySetting::getDefaultGroup())->toBe('site')
+        ->and(Step2Dev\LazySetting\LazySetting::getDefaultType())->toBe('text')
+        ->and(Step2Dev\LazySetting\LazySetting::getTable())->toBe('custom_settings');
 });
