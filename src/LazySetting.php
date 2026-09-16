@@ -18,7 +18,7 @@ class LazySetting
         $this->settings = Collection::make();
     }
 
-    public static function config(string $string = ''): string|array|null
+    public static function config(string $string = ''): string|array|int|null
     {
         $config = [
             'table' => self::getTable(),
@@ -39,33 +39,39 @@ class LazySetting
 
     public static function getCacheKey(): string
     {
-        return config('lazy-setting.cache_prefix').'settings';
+        return config('lazy.setting.cache_prefix', 'lazy_').'settings';
     }
 
     public static function getCacheTtl(): ?int
     {
-        return config('lazy-setting.cache_ttl');
+        $ttl = config('lazy.setting.cache_ttl');
+
+        return is_numeric($ttl) ? (int) $ttl : null;
     }
 
     public static function getDefaultGroup(): string
     {
-        return config('lazy-setting.default.group', 'default');
+        return config('lazy.setting.default.group', 'default');
     }
 
     public static function getDefaultType(): string
     {
-        return config('lazy-setting.default.type', 'string');
+        return config('lazy.setting.default.type', 'string');
     }
 
     public static function getTable(): string
     {
-        return trim((string) config('lazy-setting.table', 'settings'));
+        return trim((string) config('lazy.setting.table', 'settings'));
     }
 
     public function init(): static
     {
         if ($this->settings->isEmpty()) {
-            $this->settings = cache()->rememberForever(self::getCacheKey(), fn () => Setting::get());
+            $ttl = self::getCacheTtl();
+
+            $this->settings = $ttl === null
+                ? cache()->rememberForever(self::getCacheKey(), fn () => Setting::get())
+                : cache()->remember(self::getCacheKey(), $ttl, fn () => Setting::get());
         }
 
         return $this;
@@ -219,6 +225,7 @@ class LazySetting
     private function clearCache(bool $refresh = true): void
     {
         cache()->forget(self::getCacheKey());
+        $this->settings = Collection::make();
 
         if ($refresh) {
             $this->init();
