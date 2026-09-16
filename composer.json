@@ -86,7 +86,7 @@
             "dev-alert/*",
             "dev-chore/*"
         ]
-    }    
+    },
     "minimum-stability": "dev",
     "prefer-stable": true
 }
