@@ -33,10 +33,11 @@ it('validates the key and value when setting a setting', function () {
 
 it('clears the cache when setting a new value', function () {
     LazySetting::set('cached_key', 'Cached Value');
-    $cachedValue = LazySetting::get('cached_key');
+    expect(LazySetting::get('cached_key'))->toBe('Cached Value');
+
     LazySetting::set('cached_key', 'New Value');
-    $newValue = LazySetting::get('cached_key');
-    expect($newValue)->toBe('New Value');
+
+    expect(LazySetting::get('cached_key'))->toBe('New Value');
 });
 
 it('can get all settings', function () {
@@ -50,4 +51,18 @@ it('can get all settings', function () {
         ->toBe('My Website');
     //        ->and($siteDescription)
     //        ->toBe( 'My Best website');
+});
+
+it('uses the lazy.setting config namespace', function () {
+    config()->set('lazy.setting.cache_prefix', 'custom_');
+    config()->set('lazy.setting.cache_ttl', 120);
+    config()->set('lazy.setting.default.group', 'site');
+    config()->set('lazy.setting.default.type', 'text');
+    config()->set('lazy.setting.table', 'custom_settings');
+
+    expect(Step2Dev\LazySetting\LazySetting::getCacheKey())->toBe('custom_settings')
+        ->and(Step2Dev\LazySetting\LazySetting::getCacheTtl())->toBe(120)
+        ->and(Step2Dev\LazySetting\LazySetting::getDefaultGroup())->toBe('site')
+        ->and(Step2Dev\LazySetting\LazySetting::getDefaultType())->toBe('text')
+        ->and(Step2Dev\LazySetting\LazySetting::getTable())->toBe('custom_settings');
 });
