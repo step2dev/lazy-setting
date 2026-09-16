@@ -79,6 +79,14 @@
             }
         }
     },
+    "support": {
+        "exclude-from-rules": [
+            "dev-feat/*",
+            "dev-fix/*",
+            "dev-alert/*",
+            "dev-chore/*"
+        ]
+    }    
     "minimum-stability": "dev",
     "prefer-stable": true
 }
