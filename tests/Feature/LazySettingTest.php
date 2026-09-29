@@ -67,7 +67,6 @@ it('uses the lazy.setting config namespace', function () {
         ->and(Step2Dev\LazySetting\LazySetting::getTable())->toBe('custom_settings');
 });
 
-
 it('recovers from stale serialized cache payload', function () {
     cache()->forever(
         Step2Dev\LazySetting\LazySetting::getCacheKey(),
