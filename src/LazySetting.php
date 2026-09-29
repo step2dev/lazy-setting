@@ -66,15 +66,65 @@ class LazySetting
 
     public function init(): static
     {
-        if ($this->settings->isEmpty()) {
-            $ttl = self::getCacheTtl();
-
-            $this->settings = $ttl === null
-                ? cache()->rememberForever(self::getCacheKey(), fn () => Setting::get())
-                : cache()->remember(self::getCacheKey(), $ttl, fn () => Setting::get());
+        if ($this->settings->isNotEmpty()) {
+            return $this;
         }
 
+        $cacheKey = self::getCacheKey();
+        $cached = cache()->get($cacheKey);
+        $settings = $this->hydrateCachedSettings($cached);
+
+        if ($settings === null) {
+            if ($cached !== null) {
+                cache()->forget($cacheKey);
+            }
+
+            $settings = Setting::get();
+            $payload = $settings
+                ->map(static fn (Setting $setting): array => $setting->getAttributes())
+                ->values()
+                ->all();
+
+            $ttl = self::getCacheTtl();
+
+            if ($ttl === null) {
+                cache()->forever($cacheKey, $payload);
+            } else {
+                cache()->put($cacheKey, $payload, $ttl);
+            }
+        }
+
+        $this->settings = $settings;
+
         return $this;
+    }
+
+    /**
+     * Hydrate cached scalar data back into Setting models.
+     *
+     * Older Lazy Setting versions cached Eloquent collections directly.
+     * Those serialized objects can become __PHP_Incomplete_Class after a deploy,
+     * so any non-array cache payload is treated as stale and rebuilt.
+     *
+     * @return Collection<int, Setting>|null
+     */
+    private function hydrateCachedSettings(mixed $cached): ?Collection
+    {
+        if (! is_array($cached)) {
+            return null;
+        }
+
+        $settings = Collection::make();
+
+        foreach ($cached as $attributes) {
+            if (! is_array($attributes)) {
+                return null;
+            }
+
+            $settings->push((new Setting)->newFromBuilder($attributes));
+        }
+
+        return $settings;
     }
 
     public function getSettings(): Collection
