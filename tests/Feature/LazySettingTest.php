@@ -66,3 +66,16 @@ it('uses the lazy.setting config namespace', function () {
         ->and(Step2Dev\LazySetting\LazySetting::getDefaultType())->toBe('text')
         ->and(Step2Dev\LazySetting\LazySetting::getTable())->toBe('custom_settings');
 });
+
+
+it('recovers from stale serialized cache payload', function () {
+    cache()->forever(
+        Step2Dev\LazySetting\LazySetting::getCacheKey(),
+        unserialize('O:13:"GhostSettingX":0:{}')
+    );
+
+    LazySetting::set('site_name', 'Recovered');
+
+    expect(LazySetting::get('site_name'))->toBe('Recovered')
+        ->and(cache()->get(Step2Dev\LazySetting\LazySetting::getCacheKey()))->toBeArray();
+});
