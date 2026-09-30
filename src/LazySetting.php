@@ -150,16 +150,20 @@ class LazySetting
         return compact('key', 'group');
     }
 
-    public function get(string $key, mixed $default = null): ?string
+    public function get(string $key, mixed $default = null): mixed
     {
-        return $this->getConfig($key)?->value ?? $default;
+        $setting = $this->getConfig($key);
+
+        return $setting instanceof Setting
+            ? $setting->value
+            : $default;
     }
 
     public function getConfig(string $key): ?Setting
     {
         try {
             ['group' => $group, 'key' => $key] = $this->getKeyAndGroup($key);
-        } catch (InvalidArgumentException|Throwable $e) {
+        } catch (Throwable $e) {
             Log::error(__METHOD__.' '.$e->getMessage());
 
             return null;
@@ -259,13 +263,14 @@ class LazySetting
     /**
      * @throws Throwable
      */
-    public function create(string $key, array $data, ?string $type = null): Setting
+    public function create(string $key, array|string $data, ?string $type = null): Setting
     {
-        $setting = Setting::create([
+        $setting = new Setting;
+        $setting->fill([
             ...$this->getKeyAndGroup($key),
-            'type' => $type ?? 'string',
-            'value' => $data,
+            ...$this->formatData($data, $type),
         ]);
+        $setting->save();
 
         $this->clearCache();
 
